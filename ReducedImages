@@ -88,5 +88,63 @@ final_image_NGC6755_V = np.mean(np.stack(storage_NGC6755_V), axis=0)
 final_image_NGC6755_U = np.mean(np.stack(storage_NGC6755_U), axis=0)
 final_image_NGC6755_B = np.mean(np.stack(storage_NGC6755_B), axis=0)
 
-# Do standard stars next, algorithm should be entirely the same.  There are three standard stars
+
+########################### SS 111 773 #######################################
             
+SS_111773_files = os.path.join(root_dir, "111773")
+
+storage_SS_111773_V = []
+storage_SS_111773_U = []
+storage_SS_111773_B = []
+
+for file in os.listdir(SS_111773_files):
+    if file.lower().endswith('.fits'):
+        file_path = os.path.join(SS_111773_files, file)
+        with fits.open(file_path) as hdul:
+            data = hdul[0].data
+            header = hdul[0].header
+            
+        if "Filter_V" in file:
+            reduced_data = (data - master_bias) / master_flat_V
+            storage_SS_111773_V.append(reduced_data)
+        if "Filter_U" in file:
+            reduced_data = (data - master_bias) / master_flat_U
+            storage_SS_111773_B.append(reduced_data)
+        if "Filter_B" in file:
+            reduced_data = (data - master_bias) / master_flat_B
+            storage_SS_111773_B.append(reduced_data)
+            
+final_image_SS_111773_V = np.mean(np.stack(storage_SS_111773_V), axis=0)
+final_image_SS_111773_U = np.mean(np.stack(storage_SS_111773_U), axis=0)
+final_image_SS_111773_B = np.mean(np.stack(storage_SS_111773_B), axis=0)
+
+            
+######################### SS GD246 #####################################
+
+SS_GD246_files = os.path.join(root_dir, "GD246")
+
+storage_SS_GD246_V = []
+storage_SS_GD246_U = []
+storage_SS_GD246_B = []
+
+for file in os.listdir(SS_GD246_files):
+    if file.lower().endswith('.fits'):
+        file_path = os.path.join(SS_GD246_files, file)
+        with fits.open(file_path) as hdul:
+            data = hdul[0].data
+            header = hdul[0].header
+            
+        if "Filter_V" in file:
+            reduced_data = (data - master_bias) / master_flat_V
+            storage_SS_GD246_V.append(reduced_data)
+        if "Filter_U" in file:
+            reduced_data = (data - master_bias) / master_flat_U
+            storage_SS_GD246_U.append(reduced_data)
+        if "Filter_B" in file:
+            reduced_data = (data - master_bias) / master_flat_B
+            storage_SS_GD246_B.append(reduced_data)
+
+final_image_SS_GD246_V = np.mean(np.stack(storage_SS_GD246_V), axis=0)
+final_image_SS_GD246_U = np.mean(np.stack(storage_SS_GD246_U), axis=0)
+final_image_SS_GD246_B = np.mean(np.stack(storage_SS_GD246_B), axis=0)
+
