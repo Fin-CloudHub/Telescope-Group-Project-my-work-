@@ -137,7 +137,7 @@ for file in os.listdir(SS_111773_files):
             storage_SS_111773_V.append(reduced_data)
         if "Filter_U" in file:
             reduced_data = (data - master_bias) / master_flat_U
-            storage_SS_111773_B.append(reduced_data)
+            storage_SS_111773_U.append(reduced_data)
         if "Filter_B" in file:
             reduced_data = (data - master_bias) / master_flat_B
             storage_SS_111773_B.append(reduced_data)
