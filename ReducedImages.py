@@ -1,9 +1,10 @@
+# Import modules
 import numpy as np
 from astropy.io import fits
 import os
 
 # Root directory
-root_dir = "/Users/finlaysime/Desktop/Telescope Group Project/Pirate_Data"
+root_dir = "/Users/finlaysime/Desktop/Telescope Group Project/Pirate_Data/Trimmed_files"
 
 ###################### MASTER FLATS & BIAS ################################
 
@@ -29,10 +30,12 @@ with fits.open(master_bias_path) as hdul:
 # Find the M52 fits files
 M52_files = os.path.join(root_dir, "M52")
 
+# Create lists to stor reduced data in
 storage_M52_V = []
 storage_M52_U = []
 storage_M52_B = []
 
+# Loop over every file in folder
 for file in os.listdir(M52_files):
     if file.lower().endswith('.fits'):
         file_path = os.path.join(M52_files, file)
@@ -40,6 +43,7 @@ for file in os.listdir(M52_files):
             data = hdul[0].data
             header = hdul[0].header
         
+        # Filter through for different colour filter
         if "Filter_V" in file:
             reduced_data = (data - master_bias) / master_flat_V
             storage_M52_V.append(reduced_data)
@@ -55,6 +59,7 @@ final_image_M52_V = np.mean(np.array(storage_M52_V), axis=0)
 final_image_M52_U = np.mean(np.array(storage_M52_U), axis=0)
 final_image_M52_B = np.mean(np.array(storage_M52_B), axis=0)
 
+# Write final images out to specified directory
 out_file = os.path.join(root_dir, "M52_V_Final.fits")
 hdu = fits.PrimaryHDU(final_image_M52_V, header=header)
 hdu.writeto(out_file, overwrite=True)
@@ -67,8 +72,11 @@ out_file = os.path.join(root_dir, "M52_B_Final.fits")
 hdu = fits.PrimaryHDU(final_image_M52_B, header=header)
 hdu.writeto(out_file, overwrite=True)
 
-print("Finished M52")
+print("Finished M52") # Alert this object is finished
             
+########
+# Same code for every object beneath (skipped commenting for the most part as is the same)
+########
 
 ############################ NGC6755 ######################################
 
@@ -335,3 +343,4 @@ hdu.writeto(out_file, overwrite=True)
 
 print("Finished SS PG2317")
 print("FINISHED ALL")
+
